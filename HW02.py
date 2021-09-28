@@ -136,46 +136,58 @@ def matr_addi(matrix_a, matrix_b):
 #Return vector_b, the product of our original matrix and vector. 
 
 def matrvec_lccmulti(matrix_a,vector_a):
+    Q=[]
     R=[]
     lengthOfVector = len(matrix_a[0])
     
     for i in range(len(matrix_a)):
-        R.append([])
+        Q.append([])
         for j in range(lengthOfVector):
-            R[i].append("0")
+            Q[i].append("0")
     
-    for i in range(len(matrix_a)):
-        for j in range(lengthOfVector):
-            R[i][j] = matrix_a[i][j] * scalar_a
-    
-    return R
-    
-def add_vectors(vector_a, vector_b):
-    R=[]
-    
-    length = len(vector_a)
-    if len(vector_b) > length:
-        length = len(vector_b)
-    
-    for element in range(length):
+    for i in range(len(vector_a)):
         R.append("0")
     
-    for i in range(length):
+    
+    for i in range(len(matrix_a)):
+        Q[i] = scavec_multi(matrix_a[i], vector_a[i])
+    
+    
+    for i in range(len(vector_a)):
         sum = 0
-        if i < len(vector_a):
-            sum += vector_a[i]
-        if i < len(vector_b):
-            sum += vector_b[i]
+        for j in range(len(matrix_a)):
+            sum += Q[i][j]
         R[i] = sum
     
-    return R    
+    
+    return R   
+
+
+#Problem #5
+
+#Write an algorithm to implement matrix-matrix multiplication using your
+#algorithm from Problem #4.  
+#Q1: What do we have?
+#A1: We have two matricies stored as lists, matrix_a and matrix_b. 
+#Q2: What do we want?
+#A2: We want the product of our original matricies, matrix_c.
+#Q3: How will we get there?
+#A3: We will use our algorithm matrvec_lccmulti to multiply each row of matrix_a by the corresponding term in matrix_b, taking each column of
+#matrix_b as scalar_a and storing the resut as a set of columns where the columns that are in the wrong position are filled with zeroes. 
+#We will then add these matricies together usingmatr_addi to get our final matrix, the product of our original matricies. 
+#Create an empty list to store the resultant matrix. 
+#Using matrvec_multi, take column 0 of matrix_a and multiply it by the first term in the first column of matrix_b. Take column 1 of matrix_a and multiply it by 
+#the second term in the first column of matrix_b. repeat until all columns in matrix_a are multiplied by the corresponding term in matrix_b.
+#The products should be stored as 9 vectors, vectors 1-3 should be added together using add_vectors to recieve column 1 of the resultant matrix. 
+#vectors 4-6 should be added in the same way to recieve the second column, and 7-9 the third column. 
+# return matrix_c.
+
+def matr_multi(matrix_a,matrix_b):
 
 
 
 
-
-
-vector_a = [4,7,21]
+vector_a = [2,1,0]
 vector_b = [1,2]
 matrix_a = [[1,2,3],[4,5,6],[7,8,9]]
 matrix_b = [[9,8,7],[6,5,4],[3,2,1]]
@@ -192,4 +204,7 @@ result = scamatr_multi(matrix_a, scalar_a)
 print(result)
 
 result = matr_addi(matrix_a, matrix_b)
+print(result)
+
+result = matrvec_lccmulti(matrix_a, vector_a)
 print(result)
